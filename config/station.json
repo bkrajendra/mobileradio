@@ -1,0 +1,102 @@
+{
+  "station": {
+    "name": "Community Radio",
+    "shortName": "CR",
+    "description": "Your local community radio station",
+    "tagline": "Voice of the Community",
+    "founded": "2024",
+    "language": "en"
+  },
+  "streaming": {
+    "mainStream": {
+      "url": "https://stream.example.com/live",
+      "format": "mp3",
+      "bitrate": "128k",
+      "fallbackUrl": "https://backup.example.com/live"
+    },
+    "secondaryStream": {
+      "url": "https://stream.example.com/low",
+      "format": "aac",
+      "bitrate": "64k"
+    }
+  },
+  "branding": {
+    "primaryColor": "#FF5733",
+    "secondaryColor": "#33FF57",
+    "accentColor": "#3357FF",
+    "logo": {
+      "light": "assets/logo/logo-light.png",
+      "dark": "assets/logo/logo-dark.png",
+      "favicon": "assets/logo/favicon.ico"
+    },
+    "splashScreen": {
+      "backgroundColor": "#FFFFFF",
+      "image": "assets/splash/splash.png"
+    }
+  },
+  "social": {
+    "facebook": "https://facebook.com/communityradio",
+    "twitter": "https://twitter.com/communityradio",
+    "instagram": "https://instagram.com/communityradio",
+    "youtube": "https://youtube.com/communityradio",
+    "linkedin": "https://linkedin.com/company/communityradio"
+  },
+  "contact": {
+    "email": "contact@communityradio.com",
+    "phone": "+1234567890",
+    "address": {
+      "street": "123 Radio Street",
+      "city": "Radio City",
+      "state": "State",
+      "country": "Country",
+      "postalCode": "12345"
+    }
+  },
+  "about": {
+    "mission": "To serve and connect our community through quality radio programming",
+    "vision": "To be the leading voice of our community",
+    "history": "Founded in 2024, our station has been serving the community...",
+    "team": [
+      {
+        "name": "John Doe",
+        "position": "Station Manager",
+        "bio": "20 years of experience in radio broadcasting"
+      }
+    ]
+  },
+  "schedule": {
+    "timezone": "UTC+0",
+    "programs": [
+      {
+        "name": "Morning Show",
+        "time": "06:00-10:00",
+        "days": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
+      }
+    ]
+  },
+  "notifications": {
+    "enabled": true,
+    "topics": [
+      "breaking_news",
+      "program_updates",
+      "community_events"
+    ]
+  },
+  "app": {
+    "version": "1.0.0",
+    "buildNumber": "1",
+    "storeLinks": {
+      "android": "https://play.google.com/store/apps/details?id=com.communityradio.app",
+      "ios": "https://apps.apple.com/app/community-radio/id123456789"
+    }
+  },
+  "analytics": {
+    "enabled": true,
+    "provider": "firebase",
+    "trackingId": "UA-XXXXXXXXX-X"
+  },
+  "privacy": {
+    "policyUrl": "https://communityradio.com/privacy",
+    "termsUrl": "https://communityradio.com/terms"
+  }
+} 

@@ -1,0 +1,58 @@
+name: iOS Build
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Run prebuild script
+      run: npm run prebuild
+
+    - name: Setup Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: '3.0'
+        bundler-cache: true
+
+    - name: Install CocoaPods
+      run: |
+        sudo gem install cocoapods
+        pod setup
+
+    - name: Add iOS platform
+      run: ionic capacitor add ios
+
+    - name: Install iOS dependencies
+      run: |
+        cd ios/App
+        pod install
+        cd ../..
+
+    - name: Build iOS app
+      run: |
+        ionic capacitor sync ios
+        ionic capacitor build ios --prod
+
+    - name: Upload IPA
+      uses: actions/upload-artifact@v3
+      with:
+        name: app-ios
+        path: ios/App/build/Release-iphoneos/App.ipa 
