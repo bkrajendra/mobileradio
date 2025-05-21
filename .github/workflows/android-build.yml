@@ -50,12 +50,13 @@ jobs:
         npm install -g @capacitor/cli@7.2.0
 
     - name: Add Android platform
-      run: ionic capacitor add android
+      run: npx cap add android
 
     - name: Build Android app
       run: |
-        ionic capacitor sync android
-        ionic capacitor build android --prod
+        ionic build
+        npx cap sync
+        cd android && ./gradlew assembleDebug
 
     - name: Upload APK
       uses: actions/upload-artifact@v4

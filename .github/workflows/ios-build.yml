@@ -41,7 +41,7 @@ jobs:
         npm install -g @capacitor/cli@7.2.0
 
     - name: Add iOS platform
-      run: ionic capacitor add ios
+      run: npx cap add ios
 
     - name: Install iOS dependencies
       run: |
@@ -51,8 +51,8 @@ jobs:
 
     - name: Build iOS app
       run: |
-        ionic capacitor sync ios
-        ionic capacitor build ios --prod
+        ionic build
+        npx cap sync
 
     - name: Upload IPA
       uses: actions/upload-artifact@v4
