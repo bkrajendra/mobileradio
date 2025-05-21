@@ -195,14 +195,14 @@ export class RadioService {
    startCurrentPositionUpdate(): void {
       this.stopCurrentPositionUpdate();
   
-      this.currentPositionIntervalId = window.setInterval(async () => {
-          console.log(
-              'currentTime',
-              Math.round(
-                  (await AudioPlayer.getCurrentTime({ audioId: this.audioId })).currentTime,
-              ).toString(),
-          );
-      }, 1000);
+      // this.currentPositionIntervalId = window.setInterval(async () => {
+      //     console.log(
+      //         'currentTime',
+      //         Math.round(
+      //             (await AudioPlayer.getCurrentTime({ audioId: this.audioId })).currentTime,
+      //         ).toString(),
+      //     );
+      // }, 1000);
   }
   
    stopCurrentPositionUpdate(resetText:boolean = false): void {
