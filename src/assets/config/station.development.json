@@ -70,7 +70,13 @@
       {
         "name": "Morning Show",
         "time": "06:00-10:00",
-        "days": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
+        "days": [
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday"
+        ]
       }
     ]
   },
@@ -98,5 +104,6 @@
   "privacy": {
     "policyUrl": "https://communityradio.com/privacy",
     "termsUrl": "https://communityradio.com/terms"
-  }
-} 
+  },
+  "environment": "development"
+}

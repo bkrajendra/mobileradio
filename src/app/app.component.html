@@ -17,7 +17,7 @@
           @for (p of appPages; track p; let i = $index) {
             <ion-menu-toggle auto-hide="false">
               <ion-item routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false" routerLinkActive="selected">
-                <ion-icon aria-hidden="true" slot="start" [ios]="p.icon + '-outline'" [md]="p.icon + '-sharp'"></ion-icon>
+                <ion-icon slot="start" [ios]="p.icon + '-outline'" [md]="p.icon + '-sharp'"></ion-icon>
                 <ion-label>{{ p.title }}</ion-label>
               </ion-item>
             </ion-menu-toggle>
@@ -25,14 +25,25 @@
         </ion-list>
 
         <ion-list id="labels-list">
-          <ion-list-header>Labels</ion-list-header>
+          <ion-list-header><ion-icon name="add-circle-outline"></ion-icon> Social Media</ion-list-header>
 
-          @for (label of labels; track label) {
-            <ion-item lines="none">
-              <ion-icon aria-hidden="true" slot="start" ios="bookmark-outline" md="bookmark-sharp"></ion-icon>
-              <ion-label>{{ label }}</ion-label>
-            </ion-item>
-          }
+          <ion-item lines="none" [href]="'https://www.facebook.com/radiopuneriawaz'">
+            <ion-icon slot="start" ios="logo-facebook" md="logo-facebook" color="secondary"></ion-icon>
+            <ion-label>Facebook</ion-label>
+          </ion-item>
+          <ion-item lines="none" [href]="'https://www.youtube.com/channel/UC7twd1VXDGkYPJ75T8GhVJA'">
+            <ion-icon slot="start" ios="logo-youtube" md="logo-youtube" color="danger"></ion-icon>
+            <ion-label>YouTube</ion-label>
+          </ion-item>
+          <ion-item lines="none" [href]="'https://www.instagram.com/radiopuneriawaz107.8fm/'" target="_blank">
+            <ion-icon slot="start" ios="logo-instagram" md="logo-instagram" color="insta"></ion-icon>
+            <ion-label>Instagram</ion-label>
+          </ion-item>
+          <ion-item lines="none" [href]="'https://twitter.com/puneriawaz'">
+            <ion-icon slot="start" ios="logo-twitter" md="logo-x" color="secondary"></ion-icon>
+            <ion-label>Twitter</ion-label>
+          </ion-item>
+
         </ion-list>
       </ion-content>
     </ion-menu>
