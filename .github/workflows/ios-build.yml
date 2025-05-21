@@ -42,7 +42,7 @@ jobs:
 
     - name: Add iOS platform
       run: |
-        npx cap rm ios
+        npx cap uninstall ios
         npx cap add ios
 
     - name: Install iOS dependencies

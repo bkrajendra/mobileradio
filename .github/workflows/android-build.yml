@@ -51,7 +51,7 @@ jobs:
 
     - name: Add Android platform
       run: |
-        npx cap rm android
+        npx cap uninstall android
         npx cap add android
 
     - name: Build Android app
