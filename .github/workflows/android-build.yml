@@ -50,6 +50,8 @@ jobs:
 
     - name: Build Android app
       run: |
+        npm install -g @ionic/cli
+        npm install -g @capacitor/cli
         ionic capacitor sync android
         ionic capacitor build android --prod
 
