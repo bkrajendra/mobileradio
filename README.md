@@ -37,10 +37,10 @@ To create your own radio station app, follow these steps:
 
 3. **Build Process**
    ```bash
-   # Build the application
-   podman run --rm -v $(pwd):/workdir bkrajendra/ionic-builder:ionic-8 bash -c "ionic build && npx cap sync android && cd android && ./gradlew assembleDebug"
+# Build the application
+podman run --rm -v $(pwd):/workdir bkrajendra/ionic-builder:ionic-8 bash -c "ionic build && npx cap sync android && cd android && ./gradlew assembleDebug"
 
-      podman run --rm -v "%cd%":/workdir bkrajendra/ionic-builder:ionic-8 bash -c "npm i && ionic build && npx cap sync android && cd android && ./gradlew assembleDebug"
+podman run --rm -v "%cd%":/workdir bkrajendra/ionic-builder:ionic-8 bash -c "npm i && ionic build && npx cap sync android && cd android && ./gradlew assembleDebug"
    ```
 
 4. **Testing**
