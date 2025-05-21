@@ -79,9 +79,6 @@ export class RadioPage implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.sub = this.radioService.isPlaying$.subscribe((status) => {
-      this.isPlaying = status;
-    });
 
     this.getListeners();
     this.loader = false;
@@ -105,7 +102,7 @@ export class RadioPage implements OnInit, OnDestroy {
     this.sub?.unsubscribe();
   }
   togglePlay() {
-    this.radioService.togglePlay();
+  
 
     this.isPlaying = !this.isPlaying;
     const waves = document.querySelectorAll('.wave');
