@@ -45,13 +45,16 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-gradle-
 
+    - name: Install cli
+      run: |
+        npm install -g @ionic/cli
+        npm install -g @capacitor/cli
+
     - name: Add Android platform
       run: ionic capacitor add android
 
     - name: Build Android app
       run: |
-        npm install -g @ionic/cli
-        npm install -g @capacitor/cli
         ionic capacitor sync android
         ionic capacitor build android --prod
 
