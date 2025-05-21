@@ -29,12 +29,12 @@ export class CloudService {
     const headers = new HttpHeaders({});
     return this.http.get<any[]>("https://icecast.bkwsu.eu/status-json.xsl",{ headers});
   }
-  public postFeedback(data): Observable<any[]> {
+  public postFeedback(data: any): Observable<any[]> {
     //const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     return this.http.post<any[]>(this.apiBaseUrl + "feedback", data);
   }
 
-  public postJoin(data): Observable<any[]> {
+  public postJoin(data: any): Observable<any[]> {
     return this.http.post<any[]>(this.apiBaseUrl + "join", data);
   }
 }

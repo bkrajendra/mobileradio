@@ -49,10 +49,9 @@ jobs:
         npm install -g @ionic/cli@7.2.0
         npm install -g @capacitor/cli@7.2.0
 
-    # - name: Add Android platform
-    #   run: |
-    #     npx cap uninstall android
-    #     npx cap add android
+    - name: Add Android platform
+      run: |
+        npx cap add android
 
     - name: Build Android app
       run: |

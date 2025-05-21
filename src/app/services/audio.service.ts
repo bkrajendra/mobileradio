@@ -1,13 +1,15 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Observable, BehaviorSubject, Subject } from "rxjs";
 import { takeUntil } from "rxjs/operators";
 import * as moment from "moment";
 import { StreamState } from '../interfaces/stream-state';
-
+import { HttpClient } from '@angular/common/http';
+// Wprking with audio Service only, Radio service not working
 @Injectable({
   providedIn: 'root'
 })
 export class AudioService {
+  private http = inject(HttpClient);
   private state: StreamState = {
     playing: false,
     readableCurrentTime: '',
@@ -46,14 +48,14 @@ public static getAudioContext(): any {
       if (typeof AudioContext !== "undefined") {
         // We have an AudioContext type, so use it.
         AudioService._audioContext = new AudioContext();
-      } else if (window['webkitAudioContext'] !== "undefined") {
+      } else if ((window as any)['webkitAudioContext'] !== undefined) {
         // We don't have AudioContext, but we do have webkitAudioContext,
         // so attempt to use that.
         AudioService._audioContext = new ((<any>window).AudioContext || (<any>window).webkitAudioContext)();
       } else {
         throw new Error('AudioContext not supported. :(');
       }
-    } catch (err) {
+    } catch (err: any) {
       console.log(err.message);
       alert('Cannot create audio context.');
       throw err;
@@ -106,7 +108,7 @@ public static getAudioContext(): any {
     return this.stateChange.asObservable();
   }
   
-  private streamObservable(url) {
+  private streamObservable(url: any) {
     return new Observable(observer => {
       // Play audio
       this.audioObj.src = url;
@@ -148,19 +150,19 @@ public static getAudioContext(): any {
     });
   }
 
-  private addEvents(obj, events, handler) {
-    events.forEach(event => {
+  private addEvents(obj: any, events: any, handler: any) {
+    events.forEach((event: any) => {
       obj.addEventListener(event, handler);
     });
   }
 
-  private removeEvents(obj, events, handler) {
-    events.forEach(event => {
+  private removeEvents(obj: any, events: any, handler: any) {
+    events.forEach((event: any) => {
       obj.removeEventListener(event, handler);
     });
   }
 
-  playStream(url) {
+  playStream(url: any) {
     return this.streamObservable(url).pipe(takeUntil(this.stop$));
   }
 
@@ -173,14 +175,14 @@ public static getAudioContext(): any {
   }
 
   stop() {
-    this.stop$.next();
+    this.stop$.next(null);
   }
 
-  seekTo(seconds) {
+  seekTo(seconds: any) {
     this.audioObj.currentTime = seconds;
   }
 
-  setVolume(volume) {
+  setVolume(volume: any) {
     this.audioObj.volume = volume;
   }
 
