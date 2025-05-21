@@ -41,7 +41,9 @@ jobs:
         npm install -g @capacitor/cli@7.2.0
 
     - name: Add iOS platform
-      run: npx cap add ios
+      run: |
+        npx cap rm ios
+        npx cap add ios
 
     - name: Install iOS dependencies
       run: |
