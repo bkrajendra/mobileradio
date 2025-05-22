@@ -1,4 +1,11 @@
-import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {
@@ -11,6 +18,7 @@ import {
   IonToolbar,
   IonIcon,
   IonProgressBar,
+  Platform,
 } from '@ionic/angular/standalone';
 import { alarm, heart, heartOutline, mail, pause, play } from 'ionicons/icons';
 import { addIcons } from 'ionicons';
@@ -21,6 +29,14 @@ import { CloudService } from 'src/app/services/cloud.service';
 import { AlertController } from '@ionic/angular';
 import { MusicControls } from '@awesome-cordova-plugins/music-controls/ngx';
 
+interface Particle {
+  x: number;
+  y: number;
+  radius: number;
+  color: string;
+  speed: number;
+}
+
 @Component({
   selector: 'app-radio',
   templateUrl: './radio.page.html',
@@ -28,7 +44,6 @@ import { MusicControls } from '@awesome-cordova-plugins/music-controls/ngx';
   standalone: true,
   imports: [
     IonContent,
-    IonButton,
     IonButtons,
     IonMenuButton,
     IonHeader,
@@ -41,6 +56,12 @@ import { MusicControls } from '@awesome-cordova-plugins/music-controls/ngx';
   ],
 })
 export class RadioPage implements OnInit, OnDestroy {
+  @ViewChild('particleCanvas') particleCanvas!: ElementRef<HTMLCanvasElement>;
+
+  isLoading = false;
+  particles: Particle[] = [];
+  animationFrameId = 0;
+
   isPlaying = false;
   private sub: Subscription = new Subscription();
   public loader: boolean = false;
@@ -70,29 +91,41 @@ export class RadioPage implements OnInit, OnDestroy {
     private cloud: CloudService,
     private alertController: AlertController,
     private cdref: ChangeDetectorRef,
-    private musicControls: MusicControls
+    private musicControls: MusicControls,
+    public platform: Platform
   ) {
     addIcons({ alarm, play, pause });
+
     this.audioService.getState().subscribe((state: any) => {
-      this.state = state;
+      console.log(state);
+       this.state = state;
+      this.equilizerState = state.playing;
+      this.isPlaying = state.playing;
+      // this.cdref.detectChanges();
+      this.musicControls.updateIsPlaying(state.playing);
     });
   }
 
   ngOnInit() {
-
     this.getListeners();
     this.loader = false;
 
     console.log('init');
-    this.audioService.getState().subscribe((d) => {
-      //console.log(d.playing);
-      this.equilizerState = d.playing;
-      this.musicControls.updateIsPlaying(d.playing);
-    });
+
     this.showMusicControl();
+    const waves = document.querySelectorAll('.wave');
+    if (this.isPlaying) {
+      waves.forEach((wave) => wave.classList.add('animate'));
+    } else {
+      waves.forEach((wave) => wave.classList.remove('animate'));
+    }
+  }
+  ngAfterViewInit() {
+    this.initParticles();
+    this.animate();
   }
   getListeners() {
-    this.cloud.geListeners().subscribe((listeners: any) => {
+    this.cloud.getFixedJson().subscribe((listeners: any) => {
       this.listeners = listeners.icestats.source[6].listeners;
       console.log(listeners);
       console.log(listeners.icestats.source[6].listeners);
@@ -100,10 +133,9 @@ export class RadioPage implements OnInit, OnDestroy {
   }
   ngOnDestroy() {
     this.sub?.unsubscribe();
+    cancelAnimationFrame(this.animationFrameId);
   }
   togglePlay() {
-  
-
     this.isPlaying = !this.isPlaying;
     const waves = document.querySelectorAll('.wave');
 
@@ -169,7 +201,7 @@ export class RadioPage implements OnInit, OnDestroy {
       navigator.mediaSession.setActionHandler('play', () => {
         this.play(false);
       });
-      navigator.mediaSession.setActionHandler('pause',() => {
+      navigator.mediaSession.setActionHandler('pause', () => {
         this.stop();
       });
       navigator.mediaSession.setActionHandler('seekbackward', function () {});
@@ -228,9 +260,9 @@ export class RadioPage implements OnInit, OnDestroy {
 
   showMusicControl() {
     this.musicControls.create({
-      track: 'Puneri Awaz 107.8 FM', // optional, default : ''
+      track: 'Online Community Radio', // optional, default : ''
       artist: 'Khush Raho Khushiyan Banto!', // optional, default : ''
-      cover: 'assets/album-art.png', // optional, default : nothing
+      cover: 'assets/icon/favicon.png', // optional, default : nothing
       // cover can be a local path (use fullpath 'file:///storage/emulated/...', or only 'my_image.jpg' if my_image.jpg is in the www folder of your app)
       // or a remote url ('http://...', 'https://...', 'ftp://...')
       isPlaying: this.state.playing, // optional, default : true
@@ -258,11 +290,14 @@ export class RadioPage implements OnInit, OnDestroy {
       notificationIcon: 'notification',
     });
 
-    this.musicControls.subscribe().subscribe((action) => {
-      this.events(action);
-    });
-
-    this.musicControls.listen(); // activates the observable above
+    try {
+      this.musicControls.subscribe().subscribe((action) => {
+        this.events(action);
+      });
+      this.musicControls.listen(); // activates the observable above
+    } catch (error) {
+      console.error('Error setting up media controls:', error);
+    }
   }
   events(action: any) {
     const message = JSON.parse(action).message;
@@ -316,5 +351,58 @@ export class RadioPage implements OnInit, OnDestroy {
       default:
         break;
     }
+  }
+
+  private initParticles() {
+    const canvas = this.particleCanvas.nativeElement;
+    const ctx = canvas.getContext('2d');
+
+    if (!ctx) return;
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    // Create particles
+    for (let i = 0; i < 50; i++) {
+      this.particles.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        radius: Math.random() * 2 + 1,
+        color: `rgba(255, 215, 0, ${Math.random() * 0.5 + 0.2})`,
+        speed: Math.random() * 0.5 + 0.1,
+      });
+    }
+
+    // Handle resize
+    window.addEventListener('resize', () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    });
+  }
+
+  private animate() {
+    const canvas = this.particleCanvas.nativeElement;
+    const ctx = canvas.getContext('2d');
+
+    if (!ctx) return;
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // Update and draw particles
+    this.particles.forEach((particle) => {
+      particle.y -= particle.speed;
+
+      if (particle.y < 0) {
+        particle.y = canvas.height;
+        particle.x = Math.random() * canvas.width;
+      }
+
+      ctx.beginPath();
+      ctx.arc(particle.x, particle.y, particle.radius, 0, Math.PI * 2);
+      ctx.fillStyle = particle.color;
+      ctx.fill();
+    });
+
+    this.animationFrameId = requestAnimationFrame(() => this.animate());
   }
 }

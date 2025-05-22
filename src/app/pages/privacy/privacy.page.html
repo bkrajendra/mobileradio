@@ -1,25 +1,22 @@
 <ion-header [translucent]="true">
-  <ion-toolbar color="warning">
+  <ion-toolbar color="primary">
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title>About</ion-title>
+    <ion-title>Privacy Policy</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content fullscreen>
-  <ion-item *ngIf="settingsData.about_radio">
-    <div [innerHTML]="sanitizer.bypassSecurityTrustHtml(settingsData.about_radio)"></div>
-  </ion-item>
-  
-  <div *ngIf="!settingsData.about_radio">
-    <ion-card>
-      <ion-card-header>
-        <ion-label>
-          <ion-skeleton-text animated style="width: 30%"></ion-skeleton-text>
-        </ion-label>
-      </ion-card-header>
-      <ion-card-content>
+<ion-content>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Privacy Policy</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <div [innerHTML]="sanitizer.bypassSecurityTrustHtml(settingsData.privacy)"
+        *ngIf="settingsData.privacy"></div>
+      <ion-item *ngIf="!settingsData.privacy">
+
         <ion-label>
           <h3>
             <ion-skeleton-text animated style="width: 100%"></ion-skeleton-text>
@@ -46,8 +43,9 @@
             <ion-skeleton-text animated style="width: 100%"></ion-skeleton-text>
           </p>
         </ion-label>
-      </ion-card-content>
-      <ion-card-content>
+      </ion-item>
+      <ion-item *ngIf="!settingsData.privacy">
+
         <ion-label>
           <h3>
             <ion-skeleton-text animated style="width: 100%"></ion-skeleton-text>
@@ -74,35 +72,7 @@
             <ion-skeleton-text animated style="width: 100%"></ion-skeleton-text>
           </p>
         </ion-label>
-      </ion-card-content>
-      <ion-card-content>
-        <ion-label>
-          <h3>
-            <ion-skeleton-text animated style="width: 100%"></ion-skeleton-text>
-          </h3>
-          <p>
-            <ion-skeleton-text animated style="width: 100%"></ion-skeleton-text>
-          </p>
-          <p>
-            <ion-skeleton-text animated style="width: 100%"></ion-skeleton-text>
-          </p>
-          <p>
-            <ion-skeleton-text animated style="width: 100%"></ion-skeleton-text>
-          </p>
-          <p>
-            <ion-skeleton-text animated style="width: 100%"></ion-skeleton-text>
-          </p>
-          <p>
-            <ion-skeleton-text animated style="width: 100%"></ion-skeleton-text>
-          </p>
-          <p>
-            <ion-skeleton-text animated style="width: 100%"></ion-skeleton-text>
-          </p>
-          <p>
-            <ion-skeleton-text animated style="width: 100%"></ion-skeleton-text>
-          </p>
-        </ion-label>
-      </ion-card-content>
-    </ion-card>
-  </div>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
 </ion-content>

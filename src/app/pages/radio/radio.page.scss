@@ -6,24 +6,24 @@
   height: 100%;
 }
 
-.play-button-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 2rem;
-  position: relative;
-}
+// .play-button-container {
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   margin-top: 2rem;
+//   position: relative;
+// }
 
-.play-button {
-  --border-radius: 50%;
-  --padding-start: 2rem;
-  --padding-end: 2rem;
-  --padding-top: 2rem;
-  --padding-bottom: 2rem;
-  width: 120px;
-  height: 120px;
-  z-index: 2;
-}
+// .play-button {
+//   --border-radius: 50%;
+//   --padding-start: 2rem;
+//   --padding-end: 2rem;
+//   --padding-top: 2rem;
+//   --padding-bottom: 2rem;
+//   width: 120px;
+//   height: 120px;
+//   z-index: 2;
+// }
 
 .wave-container {
   position: absolute;
@@ -34,7 +34,7 @@
 
 .wave {
   position: absolute;
-  border: 2px solid var(--ion-color-danger);
+  border: 2px solid #c06d0f;
   border-radius: 50%;
   width: 100%;
   height: 100%;
@@ -75,4 +75,200 @@ ion-header {
 
 ion-toolbar {
   --background: transparent;
+}
+
+ion-content {
+  --background: linear-gradient(135deg, #c06d0f 0%, #8c1422 100%);
+}
+
+.particle-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.content-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+  padding: 32px 16px;
+  z-index: 2;
+  color: white;
+}
+
+.spiritual-gradient {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 300px;
+  background: radial-gradient(circle at 50% 0%, rgba(243, 84, 5, 0.3) 0%, transparent 70%);
+  z-index: 1;
+}
+
+.center-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  text-align: center;
+  z-index: 2;
+}
+
+.radio-title {
+  margin-bottom: 48px;
+  
+  h1 {
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    letter-spacing: 1px;
+  }
+  
+  p {
+    font-size: 18px;
+    font-weight: 300;
+    opacity: 0.9;
+  }
+}
+
+.play-button-container {
+  position: relative;
+  margin-bottom: 24px;
+  
+  &.active .pulse-circle {
+    animation: pulse 3s infinite;
+  }
+  
+  .pulse-circle {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: rgba(243, 2, 46, 0.2);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+
+.play-button {
+  background: linear-gradient(135deg, #FFD700 0%, #FFA000 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+
+    --border-radius: 50%;
+  --padding-start: 2rem;
+  --padding-end: 2rem;
+  --padding-top: 2rem;
+  --padding-bottom: 2rem;
+  width: 120px;
+  height: 120px;
+  z-index: 2;
+  
+  &:active {
+    transform: scale(0.95);
+  }
+  
+  ion-icon {
+    font-size: 36px;
+    color: #cd3903;
+  }
+  
+  &.loading ion-icon {
+    opacity: 0.3;
+  }
+  
+  .loading-indicator {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    .loading-spinner {
+      width: 30px;
+      height: 30px;
+      border: 3px solid rgba(74, 20, 140, 0.3);
+      border-top: 3px solid #4A148C;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+  }
+}
+
+.status-text {
+  font-size: 16px;
+  opacity: 0.8;
+  margin-top: 16px;
+}
+
+.quote-container {
+  margin-top: auto;
+  padding: 16px;
+  text-align: center;
+  font-style: italic;
+  opacity: 0.8;
+  font-size: 14px;
+  max-width: 600px;
+}
+
+@keyframes pulse {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.7;
+  }
+  70% {
+    transform: translate(-50%, -50%) scale(1.5);
+    opacity: 0;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0;
+  }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+// Responsive adjustments
+@media (max-height: 600px) {
+  .radio-title {
+    margin-bottom: 24px;
+    
+    h1 {
+      font-size: 28px;
+    }
+    
+    p {
+      font-size: 16px;
+    }
+  }
+  
+  .play-button {
+    width: 70px;
+    height: 70px;
+    
+    ion-icon {
+      font-size: 32px;
+    }
+  }
 }

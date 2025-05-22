@@ -6,29 +6,35 @@ import {
   IonHeader,
   IonTitle,
   IonToolbar,
+  IonSkeletonText,
+  IonIcon,
+  IonFabButton,
+  IonFab,
+  IonFabList,
+  IonLabel,
+  IonThumbnail,
+  IonItem,
+  IonList,
+  IonListHeader,
+  IonNote,
+  LoadingController,
   IonButtons,
   IonMenuButton,
-  IonSkeletonText,
-  IonItem,
-  IonLabel,
   IonCard,
   IonCardContent,
   IonCardHeader,
   IonCardSubtitle,
-  IonCardTitle,
-  LoadingController,
+  IonCardTitle
 } from '@ionic/angular/standalone';
 import { CloudService } from 'src/app/services/cloud.service';
 import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
-  selector: 'app-about',
-  templateUrl: './about.page.html',
-  styleUrls: ['./about.page.scss'],
+  selector: 'app-privacy',
+  templateUrl: './privacy.page.html',
+  styleUrls: ['./privacy.page.scss'],
   standalone: true,
   imports: [
-    IonButtons,
-    IonMenuButton,
     IonContent,
     IonHeader,
     IonTitle,
@@ -36,28 +42,34 @@ import { DomSanitizer } from '@angular/platform-browser';
     CommonModule,
     FormsModule,
     IonSkeletonText,
-    IonItem,
     IonLabel,
+    IonItem,
+    IonButtons,
+    IonMenuButton,
     IonCard,
     IonCardContent,
     IonCardHeader,
+    IonCard,
+    IonCardTitle,
   ],
 })
-export class AboutPage implements OnInit {
-  
+export class PrivacyPage implements OnInit {
+
   settingsData: any = {};
 
   constructor(
     private cloud: CloudService,
     private loader: LoadingController,
     public sanitizer: DomSanitizer
-  ) {}
+    
+  ) { }
+
   ngOnInit(): void {
     this.getSettings();
     //this.presentLoading();
   }
   getSettings(): void {
-    this.cloud.getSettings().subscribe((data) => {
+    this.cloud.getSettings().subscribe((data: any) => {
       this.settingsData = data;
       console.log(this.settingsData);
     });
