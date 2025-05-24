@@ -1,4 +1,4 @@
-<ion-header [translucent]="true">
+<ion-header [translucent]="false" class="ion-no-border">
   <ion-toolbar color="warning">
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
@@ -7,11 +7,19 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content fullscreen>
+<ion-content>
+  <!-- <ion-header collapse="condense" >
+    <ion-toolbar color="warning">
+      <ion-title size="large">About</ion-title>
+    </ion-toolbar>
+  </ion-header> -->
+
   <ion-item *ngIf="settingsData.about_radio">
-    <div [innerHTML]="sanitizer.bypassSecurityTrustHtml(settingsData.about_radio)"></div>
+    <div
+      [innerHTML]="sanitizer.bypassSecurityTrustHtml(settingsData.about_radio)"
+    ></div>
   </ion-item>
-  
+
   <div *ngIf="!settingsData.about_radio">
     <ion-card>
       <ion-card-header>

@@ -58,7 +58,7 @@ export class CloudService {
       .replace(/,\s*([}\]])/g, '$1') // Remove trailing commas
       .replace(/([{,])\s*([a-zA-Z0-9_]+)\s*:/g, '$1"$2":') // Quote keys
       .replace(/'/g, '"') // Replace single quotes with double quotes
-      .replace(/"title":-/g, '"title":-0'); // Replace single quotes with double quotes
+      //.replace(/"title":-/g, '"title":-0'); // Replace single quotes with double quotes
   }
   public postFeedback(data: any): Observable<any[]> {
     //const headers = new HttpHeaders({ 'Content-Type': 'application/json' });

@@ -26,7 +26,7 @@ async function processConfig() {
             development: { ...config, environment: 'development' },
             production: { ...config, environment: 'production' }
         };
-
+console.log(OUTPUT_PATH);
         // Write processed configs
         Object.entries(envConfigs).forEach(([env, config]) => {
             fs.writeFileSync(

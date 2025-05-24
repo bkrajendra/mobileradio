@@ -1,29 +1,38 @@
-import { Injectable } from '@angular/core';
-import { environment } from '../../environments/environment';
-import { StationConfig } from './station.types';
-
+import { inject, Injectable } from '@angular/core';
+import { StationConfig } from 'src/app/config/station.types';
+import { environment } from 'src/environments/environment';
+import { HttpClient } from '@angular/common/http';
+import { firstValueFrom } from 'rxjs';
+declare var require: any;
 @Injectable({
   providedIn: 'root'
 })
 export class StationConfigLoader {
-  private config: StationConfig;
+  private http = inject(HttpClient);
+  private config!: StationConfig;
 
   constructor() {
     this.loadConfig();
   }
 
-  private loadConfig() {
+  async loadConfig(): Promise<StationConfig>{
     try {
-      const configPath = `./config/station.${environment.production ? 'production' : 'development'}.json`;
-      this.config = require(configPath);
+      const configPath = `./assets/config/station.${environment.production ? 'production' : 'development'}.json`;
+      // this.config = require(configPath);
+      const config = await firstValueFrom(this.http.get(configPath));
+      this.config = config as StationConfig;
+      return config as StationConfig;
     } catch (error) {
       console.error('Failed to load station configuration:', error);
       throw new Error('Station configuration could not be loaded');
     }
   }
 
-  public getConfig(): StationConfig {
-    return this.config;
+  async getConfig(): Promise<StationConfig> {
+    if (!this.config) {
+      await this.loadConfig();
+    }
+    return await this.config;
   }
 
   public getStationName(): string {

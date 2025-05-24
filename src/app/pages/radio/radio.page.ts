@@ -28,6 +28,7 @@ import { StreamState } from 'src/app/interfaces/stream-state';
 import { CloudService } from 'src/app/services/cloud.service';
 import { AlertController } from '@ionic/angular';
 import { MusicControls } from '@awesome-cordova-plugins/music-controls/ngx';
+import { StationConfigLoader } from 'src/config/station-loader';
 
 interface Particle {
   x: number;
@@ -71,7 +72,8 @@ export class RadioPage implements OnInit, OnDestroy {
 
   state!: StreamState;
   listeners!: number;
-  equilizerState: boolean = false;
+  appConfig: any = {};
+
   spiritualMessages = [
     'Tuning into the divine...',
     'Streaming sacred sounds...',
@@ -92,18 +94,20 @@ export class RadioPage implements OnInit, OnDestroy {
     private alertController: AlertController,
     private cdref: ChangeDetectorRef,
     private musicControls: MusicControls,
-    public platform: Platform
+    public platform: Platform,
+     private configService: StationConfigLoader
   ) {
     addIcons({ alarm, play, pause });
 
     this.audioService.getState().subscribe((state: any) => {
-      console.log(state);
+      // console.log(state);
        this.state = state;
-      this.equilizerState = state.playing;
+
       this.isPlaying = state.playing;
       // this.cdref.detectChanges();
       this.musicControls.updateIsPlaying(state.playing);
     });
+    this.loadConfig();
   }
 
   ngOnInit() {
@@ -119,6 +123,14 @@ export class RadioPage implements OnInit, OnDestroy {
     } else {
       waves.forEach((wave) => wave.classList.remove('animate'));
     }
+  }
+  async loadConfig() {
+    let config = await this.configService.getConfig();
+    this.appConfig = config;
+    if (config.streaming && config.streaming.mainStream) {
+      this.radioURL = config.streaming.mainStream.url
+    }
+    console.log(config);
   }
   ngAfterViewInit() {
     this.initParticles();
@@ -171,6 +183,14 @@ export class RadioPage implements OnInit, OnDestroy {
         this.loader = false;
         this.isPlaying = false;
         this.presentAlert();
+        const waves = document.querySelectorAll('.wave');
+
+        if (this.isPlaying) {
+          waves.forEach((wave) => wave.classList.add('animate'));
+        } else {
+          waves.forEach((wave) => wave.classList.remove('animate'));
+        }
+
       }
     });
   }

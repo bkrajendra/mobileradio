@@ -20,8 +20,12 @@ import {
   IonListHeader,
   IonNote,
 } from '@ionic/angular/standalone';
+import {
+  refreshSharp
+} from 'ionicons/icons';
 import { CloudService } from 'src/app/services/cloud.service';
 import { Schedule } from 'src/app/services/schedule';
+import { addIcons } from 'ionicons';
 
 @Component({
   selector: 'app-schedule',
@@ -52,7 +56,11 @@ import { Schedule } from 'src/app/services/schedule';
 export class SchedulePage implements OnInit {
   schedule: Schedule[] = [];
 
-  constructor(private cloud: CloudService) {}
+  constructor(private cloud: CloudService) {
+        addIcons({
+          refreshSharp
+        });
+  }
 
   ngOnInit(): void {
     this.getSchedule();

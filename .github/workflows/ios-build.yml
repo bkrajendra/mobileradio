@@ -43,6 +43,10 @@ jobs:
     - name: Add iOS platform
       run: |
         npx cap add ios
+    - name: Bump version & update native
+      run: |
+        npm install plist
+        node ./scripts/bump-version.js
 
     - name: Install iOS dependencies
       run: |
@@ -55,8 +59,7 @@ jobs:
         ionic build
         npx cap sync
         npx cap build ios
-        xcodebuild -workspace App.xcworkspace -scheme App -configuration Release -archivePath build/App.xcarchive archive
-        xcodebuild -exportArchive -archivePath build/App.xcarchive -exportOptionsPlist ExportOptions.plist -exportPath build
+        xcodebuild -workspace App.xcworkspace -scheme App -sdk iphoneos -configuration Release CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO
 
     - name: Upload IPA
       uses: actions/upload-artifact@v4

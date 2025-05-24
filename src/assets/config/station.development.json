@@ -1,21 +1,21 @@
 {
   "station": {
-    "name": "Community Radio",
-    "shortName": "CR",
+    "name": "Puneri Awaz",
+    "shortName": "PA",
     "description": "Your local community radio station",
-    "tagline": "Voice of the Community",
+    "tagline": "Puneri Awaz FM.",
     "founded": "2024",
     "language": "en"
   },
   "streaming": {
     "mainStream": {
-      "url": "https://stream.example.com/live",
+      "url": "https://icecast.bkwsu.eu/radio-awaz-pune.mp3",
       "format": "mp3",
       "bitrate": "128k",
-      "fallbackUrl": "https://backup.example.com/live"
+      "fallbackUrl": "https://icecast.bkwsu.eu/radio-awaz-pune.mp3"
     },
     "secondaryStream": {
-      "url": "https://stream.example.com/low",
+      "url": "https://icecast.bkwsu.eu/radio-awaz-pune.mp3",
       "format": "aac",
       "bitrate": "64k"
     }
@@ -25,8 +25,8 @@
     "secondaryColor": "#33FF57",
     "accentColor": "#3357FF",
     "logo": {
-      "light": "assets/logo/logo-light.png",
-      "dark": "assets/logo/logo-dark.png",
+      "light": "assets/logo/icon-light.png",
+      "dark": "assets/logo/icon-dark.png",
       "favicon": "assets/logo/favicon.png"
     },
     "splashScreen": {
@@ -35,14 +35,14 @@
     }
   },
   "social": {
-    "facebook": "https://facebook.com/communityradio",
-    "twitter": "https://twitter.com/communityradio",
-    "instagram": "https://instagram.com/communityradio",
-    "youtube": "https://youtube.com/communityradio",
+    "facebook": "https://facebook.com/radiopuneriawaz",
+    "twitter": "https://twitter.com/puneriawaz",
+    "instagram": "https://www.instagram.com/radiopuneriawaz107.8fm",
+    "youtube": "https://www.youtube.com/channel/UC7twd1VXDGkYPJ75T8GhVJA",
     "linkedin": "https://linkedin.com/company/communityradio"
   },
   "contact": {
-    "email": "contact@communityradio.com",
+    "email": "contact@bkwsu.com",
     "phone": "+1234567890",
     "address": {
       "street": "123 Radio Street",
@@ -102,8 +102,8 @@
     "trackingId": "UA-XXXXXXXXX-X"
   },
   "privacy": {
-    "policyUrl": "https://communityradio.com/privacy",
-    "termsUrl": "https://communityradio.com/terms"
+    "policyUrl": "https://bkwsu.com/privacy",
+    "termsUrl": "https://bkwsu.com/terms"
   },
   "environment": "development"
 }

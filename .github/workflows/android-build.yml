@@ -52,7 +52,12 @@ jobs:
     - name: Add Android platform
       run: |
         npx cap add android
-
+    - name: Bump version & update native
+      run: |
+        npm install plist
+        node ./scripts/bump-version.js
+    
+    
     - name: Build Android app
       run: |
         ionic build

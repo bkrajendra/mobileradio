@@ -7,9 +7,9 @@
             <ion-avatar>
               <img src="assets/icon/favicon.png">
             </ion-avatar>
-            Puneri Awaz
+             {{appConfig?.station?.name}} v {{appv}}
             <ion-button (click)="shareIt()">
-              <ion-icon slot="icon-only" name="share-social-outline"></ion-icon>
+              <ion-icon slot="icon-only" name="share-social-sharp"></ion-icon>
             </ion-button>
 
           </ion-list-header>
@@ -24,22 +24,22 @@
           }
         </ion-list>
 
-        <ion-list id="labels-list"  class="menu-gradient">
-          <ion-list-header><ion-icon name="add-circle-outline"></ion-icon> Social Media</ion-list-header>
+        <ion-list id="labels-list">
+          <ion-list-header>Social Media</ion-list-header>
 
-          <ion-item lines="none" [href]="'https://www.facebook.com/radiopuneriawaz'">
+          <ion-item lines="none" [href]="appConfig?.social?.facebook">
             <ion-icon slot="start" ios="logo-facebook" md="logo-facebook" color="secondary"></ion-icon>
             <ion-label>Facebook</ion-label>
           </ion-item>
-          <ion-item lines="none" [href]="'https://www.youtube.com/channel/UC7twd1VXDGkYPJ75T8GhVJA'">
+          <ion-item lines="none" [href]="appConfig?.social?.youtube">
             <ion-icon slot="start" ios="logo-youtube" md="logo-youtube" color="danger"></ion-icon>
             <ion-label>YouTube</ion-label>
           </ion-item>
-          <ion-item lines="none" [href]="'https://www.instagram.com/radiopuneriawaz107.8fm/'" target="_blank">
-            <ion-icon slot="start" ios="logo-instagram" md="logo-instagram" color="insta"></ion-icon>
+          <ion-item lines="none" [href]="appConfig?.social?.instagram" target="_blank">
+            <ion-icon slot="start" ios="logo-instagram" md="logo-instagram" color="warning"></ion-icon>
             <ion-label>Instagram</ion-label>
           </ion-item>
-          <ion-item lines="none" [href]="'https://twitter.com/puneriawaz'">
+          <ion-item lines="none" [href]="appConfig?.social?.twitter">
             <ion-icon slot="start" ios="logo-twitter" md="logo-x" color="secondary"></ion-icon>
             <ion-label>Twitter</ion-label>
           </ion-item>

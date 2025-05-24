@@ -1,13 +1,13 @@
 <ion-header [translucent]="false" class="ion-no-border">
-  <ion-toolbar>
+  <ion-toolbar color="warning">
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title color="white">Listen Live</ion-title>
+    <ion-title>Listen Live</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true" class="ion-padding">
+<ion-content>
    <canvas #particleCanvas class="particle-canvas"></canvas>
   
   <div class="content-container">
@@ -15,8 +15,8 @@
     
     <div class="center-content">
       <div class="radio-title">
-        <h1>Spiritual Radio</h1>
-        <p>Enlighten Your Soul</p>
+        <h1>{{appConfig?.station?.name}}</h1>
+        <p>{{appConfig?.station?.tagline}}</p>
       </div>
       
       <div class="play-button-container" [class.active]="isPlaying">

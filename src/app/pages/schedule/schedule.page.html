@@ -1,4 +1,4 @@
-<ion-header [translucent]="true">
+<ion-header [translucent]="false" class="ion-no-border">
   <ion-toolbar color="warning">
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
@@ -8,11 +8,11 @@
 </ion-header>
 
 <ion-content>
-  <ion-header collapse="condense">
-    <ion-toolbar>
+  <!-- <ion-header collapse="condense">
+    <ion-toolbar color="warning">
       <ion-title size="large">Schedule</ion-title>
     </ion-toolbar>
-  </ion-header>
+  </ion-header> -->
 
 
   <ion-list *ngIf="schedule">
@@ -91,7 +91,7 @@
 
   <ion-fab horizontal="end" vertical="top" slot="fixed" edge>
     <ion-fab-button (click)="getSchedule()" color="danger">
-      <ion-icon name="refresh-circle-outline"></ion-icon>
+      <ion-icon name="refresh-sharp"></ion-icon>
     </ion-fab-button>
   </ion-fab>
 </ion-content>

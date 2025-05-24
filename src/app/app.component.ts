@@ -1,5 +1,5 @@
 import { Location } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import {
   IonApp,
@@ -50,9 +50,15 @@ import {
   informationSharp,
   starHalfOutline,
   starHalfSharp,
+  calendarOutline,
 } from 'ionicons/icons';
 import { AppVersion } from '@awesome-cordova-plugins/app-version/ngx';
 import { SocialSharing } from '@awesome-cordova-plugins/social-sharing/ngx';
+import { StationConfigLoader } from 'src/config/station-loader';
+import { ScreenOrientation } from '@capacitor/screen-orientation';
+import { AlertController } from '@ionic/angular';
+import { App } from '@capacitor/app';
+
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -72,28 +78,29 @@ import { SocialSharing } from '@awesome-cordova-plugins/social-sharing/ngx';
     IonLabel,
     IonRouterLink,
     IonRouterOutlet,
-    RouterLink, RouterLinkActive
+    RouterLink,
+    RouterLinkActive,
   ],
 })
-export class AppComponent {
-  appv: string = '';
+export class AppComponent implements OnInit {
+  appv: string = '...';
   public appPages = [
     { title: 'Listen Now', url: '/radio', icon: 'radio' },
     { title: 'About', url: '/about', icon: 'information' },
-    { title: 'Schedule', url: '/schedule', icon: 'calendar' },
-    { title: 'Join', url: '/join', icon: 'person-add' },
-    { title: 'Feedback', url: '/feedback', icon: 'star-half' },
+    // { title: 'Schedule', url: '/schedule', icon: 'calendar' },
+    // { title: 'Join', url: '/join', icon: 'person-add' },
+    // { title: 'Feedback', url: '/feedback', icon: 'star-half' },
     { title: 'Contact', url: '/contact', icon: 'mail' },
     { title: 'Privacy Policy', url: '/privacy', icon: 'shield-half' },
   ];
-  public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
+  appConfig: any = {};
   constructor(
-    // private screenOrientation: ScreenOrientation,
     private platform: Platform,
-    private sshare: SocialSharing,
+    private socialSharing: SocialSharing,
     private _location: Location,
-    // private alertController: AlertController,
-    private appVersion: AppVersion
+    private alertController: AlertController,
+    private appVersion: AppVersion,
+    private sc: StationConfigLoader
   ) {
     addIcons({
       information,
@@ -105,6 +112,7 @@ export class AppComponent {
       calendar,
       calendarClearOutline,
       calendarSharp,
+      calendarOutline,
       personAdd,
       personAddOutline,
       personAddSharp,
@@ -123,58 +131,117 @@ export class AppComponent {
       logoTwitter,
       logoX,
     });
-    // console.log(this.screenOrientation.lock);
-    // if (this.screenOrientation.lock) {
+    console.log(ScreenOrientation.lock);
 
-    // }
     this.platform.ready().then(() => {
+      console.log('Platform is ready');
+      this.getOrientation();
+
       this.appVersion
         .getVersionNumber()
-        .then((v) => {
+        .then((v: any) => {
           console.log(v);
           this.appv = v;
+        })
+        .catch((e: any) => {
+          console.log(e);
+        });
+
+      ScreenOrientation.lock({ orientation: 'portrait' })
+        .then((d: any) => {
+          console.log(d);
+        })
+        .catch((e: any) => {
+          console.log(e);
+        });
+    });
+
+    this.platform.backButton.subscribeWithPriority(10, (processNextHandler) => {
+      console.log('Back press handler!');
+      if (this._location.isCurrentPathEqualTo('/radio')) {
+        // Show Exit Alert!
+        console.log('Show Exit Alert!');
+        this.showExitConfirm();
+        processNextHandler();
+      } else {
+        // Navigate to back page
+        console.log('Navigate to back page');
+        this._location.back();
+      }
+    });
+    this.platform.backButton.subscribeWithPriority(5, () => {
+      console.log('Handler called to force close!');
+      this.alertController
+        .getTop()
+        .then((r) => {
+          if (r) {
+            this.exitApp();
+          }
         })
         .catch((e) => {
           console.log(e);
         });
-
-      // this.screenOrientation
-      //   .lock(this.screenOrientation.ORIENTATIONS.PORTRAIT)
-      //   .then((d) => {
-      //     console.log(d);
-      //   })
-      //   .catch((e) => {
-      //     console.log(e);
-      //   });
     });
-
-    // this.platform.backButton.subscribeWithPriority(10, (processNextHandler) => {
-    //   console.log('Back press handler!');
-    //   if (this._location.isCurrentPathEqualTo('/radio')) {
-
-    //     // Show Exit Alert!
-    //     console.log('Show Exit Alert!');
-    //     this.showExitConfirm();
-    //     processNextHandler();
-    //   } else {
-
-    //     // Navigate to back page
-    //     console.log('Navigate to back page');
-    //     this._location.back();
-    //   }
-    // });
-    // this.platform.backButton.subscribeWithPriority(5, () => {
-    //   console.log('Handler called to force close!');
-    //   this.alertController.getTop().then(r => {
-    //     if (r) {
-    //       navigator['app'].exitApp();
-    //     }
-    //   }).catch(e => {
-    //     console.log(e);
-    //   })
-    // });
+  }
+  ngOnInit(): void {
+    this.loadConfig();
+  }
+  async loadConfig() {
+    let config = await this.sc.getConfig();
+    this.appConfig = config;
+    console.log(config);
   }
   shareIt() {
     console.log('Share it');
+    this.socialSharing
+      .share(
+        'Download Radio App at: Android: ' +
+          this.appConfig.app.storeLinks.android +
+          ', IOS: ' +
+          this.appConfig.app.storeLinks.ios +
+          ' Share it! ',
+        'Community Radio',
+        '',
+        'null'
+      )
+      .then(() => {
+        console.log('Shared successfully');
+      })
+      .catch((error) => {
+        console.error('Error sharing:', error);
+      });
+  }
+  async getOrientation() {
+    const current = await ScreenOrientation.orientation();
+    console.log('Current orientation:', current);
+  }
+  showExitConfirm() {
+    this.alertController
+      .create({
+        header: 'Close App?',
+        message: 'Do you want to close the app?',
+        backdropDismiss: false,
+        buttons: [
+          {
+            text: 'Stay',
+            role: 'cancel',
+            handler: () => {
+              console.log('Application exit prevented!');
+            },
+          },
+          {
+            text: 'Exit',
+            handler: () => {
+              this.exitApp();
+            },
+          },
+        ],
+      })
+      .then((alert) => {
+        alert.present();
+      });
+  }
+  exitApp() {
+    App.exitApp();
   }
 }
