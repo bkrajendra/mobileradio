@@ -139,6 +139,14 @@ export class AppComponent implements OnInit {
       this.getOrientation();
       StatusBar.setOverlaysWebView({ overlay: false }); // display header below status bar
 
+      App.getInfo().then((info: any) => {
+        console.log('App Info:', info);
+      }
+      ).catch((e: any) => {
+        console.log('Error getting app info:', e);
+      });
+
+      
       this.appVersion
         .getVersionNumber()
         .then((v: any) => {
