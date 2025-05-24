@@ -4,7 +4,7 @@ const plist = require('plist');
 // npm install plist
 
 // === 1. Bump package.json version ===
-const pkgPath = path.join(__dirname, 'package.json');
+const pkgPath = path.join(__dirname, '..', 'package.json');
 const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf8'));
 
 let version = pkg.version.split('.');
@@ -26,7 +26,7 @@ console.log(`✅ package.json updated to ${newVersion}`);
 // }
 
 // === 3. Update Android build.gradle ===
-const androidPath = path.join(__dirname, 'android/app/build.gradle');
+const androidPath = path.join(__dirname, '..', 'android/app/build.gradle');
 if (fs.existsSync(androidPath)) {
   let gradle = fs.readFileSync(androidPath, 'utf8');
   gradle = gradle
@@ -37,7 +37,7 @@ if (fs.existsSync(androidPath)) {
 }
 
 // === 4. Update iOS Info.plist ===
-const iosPlistPath = path.join(__dirname, 'ios/App/App/Info.plist'); // Adjust path as per your structure
+const iosPlistPath = path.join(__dirname, '..', 'ios/App/App/Info.plist'); // Adjust path as per your structure
 if (fs.existsSync(iosPlistPath)) {
   const plistContent = fs.readFileSync(iosPlistPath, 'utf8');
   const info = plist.parse(plistContent);
