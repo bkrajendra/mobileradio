@@ -2,9 +2,9 @@ name: iOS Build
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main1 ]
   pull_request:
-    branches: [ main ]
+    branches: [ main1 ]
   workflow_dispatch:
 
 jobs:
@@ -54,12 +54,31 @@ jobs:
         pod install
         cd ../..
 
-    - name: Build iOS app
+    - name: Setup keychain
       run: |
-        ionic build
-        npx cap sync
-        npx cap build ios
-        xcodebuild -workspace App.xcworkspace -scheme App -sdk iphoneos -configuration Release CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO
+        security create-keychain -p "" ios-build.keychain
+        security default-keychain -s ios-build.keychain
+        security unlock-keychain -p "" ios-build.keychain
+        security import <(echo "$IOS_CERT" | base64 --decode) -k ios-build.keychain -P "$CERT_PASSWORD" -T /usr/bin/codesign
+        mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
+        echo "$PROVISIONING_PROFILE" | base64 --decode > ~/Library/MobileDevice/Provisioning\ Profiles/profile.mobileprovision
+
+    - name: Build IPA
+      run: |
+        cd ios/App
+        xcodebuild \
+          -workspace App.xcworkspace \
+          -scheme App \
+          -configuration Release \
+          -archivePath $RUNNER_TEMP/App.xcarchive archive \
+          DEVELOPMENT_TEAM=<your_team_id> \
+          CODE_SIGN_STYLE=Manual \
+          PROVISIONING_PROFILE_SPECIFIER=<your_profile_name>
+
+        xcodebuild -exportArchive \
+          -archivePath $RUNNER_TEMP/App.xcarchive \
+          -exportOptionsPlist exportOptions.plist \
+          -exportPath $RUNNER_TEMP/build
 
     - name: Upload IPA
       uses: actions/upload-artifact@v4

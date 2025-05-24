@@ -63,6 +63,7 @@ jobs:
         ionic build
         npx cap sync
         chmod +x android/gradlew
+        npx capacitor-assets generate
         cd android && ./gradlew assembleDebug
 
     - name: Upload APK
