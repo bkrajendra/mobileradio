@@ -53,7 +53,8 @@ import {
   calendarOutline,
 } from 'ionicons/icons';
 import { AppVersion } from '@awesome-cordova-plugins/app-version/ngx';
-import { SocialSharing } from '@awesome-cordova-plugins/social-sharing/ngx';
+import { Share } from '@capacitor/share';
+
 import { StationConfigLoader } from 'src/config/station-loader';
 import { ScreenOrientation } from '@capacitor/screen-orientation';
 import { AlertController } from '@ionic/angular';
@@ -97,7 +98,6 @@ export class AppComponent implements OnInit {
   appConfig: any = {};
   constructor(
     private platform: Platform,
-    private socialSharing: SocialSharing,
     private _location: Location,
     private alertController: AlertController,
     private appVersion: AppVersion,
@@ -133,13 +133,11 @@ export class AppComponent implements OnInit {
       logoX,
     });
     console.log(ScreenOrientation.lock);
-    
 
     this.platform.ready().then(() => {
       console.log('Platform is ready');
       this.getOrientation();
-      StatusBar.setOverlaysWebView({ overlay: false });// display header below status bar
-
+      StatusBar.setOverlaysWebView({ overlay: false }); // display header below status bar
 
       this.appVersion
         .getVersionNumber()
@@ -195,25 +193,20 @@ export class AppComponent implements OnInit {
     this.appConfig = config;
     console.log(config);
   }
-  shareIt() {
+  async shareIt() {
     console.log('Share it');
-    this.socialSharing
-      .share(
+
+    await Share.share({
+      title:
         'Download Radio App at: Android: ' +
-          this.appConfig.app.storeLinks.android +
-          ', IOS: ' +
-          this.appConfig.app.storeLinks.ios +
-          ' Share it! ',
-        'Community Radio',
-        '',
-        'null'
-      )
-      .then(() => {
-        console.log('Shared successfully');
-      })
-      .catch((error) => {
-        console.error('Error sharing:', error);
-      });
+        this.appConfig.app.storeLinks.android +
+        ', IOS: ' +
+        this.appConfig.app.storeLinks.ios +
+        ' Share it! ',
+      text: 'Community Radio',
+      url: 'http://bkwsu.com/',
+      dialogTitle: 'Share with others',
+    });
   }
   async getOrientation() {
     const current = await ScreenOrientation.orientation();

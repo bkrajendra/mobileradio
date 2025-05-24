@@ -1,6 +1,6 @@
 {
   "name": "community-radio-app",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Community Radio Mobile Application",
   "scripts": {
     "prebuild": "node scripts/build-config.js",
@@ -31,7 +31,6 @@
     "@awesome-cordova-plugins/app-version": "^6.16.0",
     "@awesome-cordova-plugins/core": "^6.16.0",
     "@awesome-cordova-plugins/music-controls": "^6.16.0",
-    "@awesome-cordova-plugins/social-sharing": "^6.16.0",
     "@capacitor/android": "7.2.0",
     "@capacitor/app": "7.0.1",
     "@capacitor/core": "7.2.0",
@@ -39,6 +38,7 @@
     "@capacitor/ios": "7.2.0",
     "@capacitor/keyboard": "7.0.1",
     "@capacitor/screen-orientation": "^7.0.1",
+    "@capacitor/share": "^7.0.1",
     "@capacitor/status-bar": "7.0.1",
     "@ionic/angular": "^8.0.0",
     "cordova-plugin-music-controls2": "^3.0.7",
