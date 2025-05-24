@@ -58,6 +58,7 @@ import { StationConfigLoader } from 'src/config/station-loader';
 import { ScreenOrientation } from '@capacitor/screen-orientation';
 import { AlertController } from '@ionic/angular';
 import { App } from '@capacitor/app';
+import { StatusBar, Style } from '@capacitor/status-bar';
 
 @Component({
   selector: 'app-root',
@@ -132,10 +133,13 @@ export class AppComponent implements OnInit {
       logoX,
     });
     console.log(ScreenOrientation.lock);
+    
 
     this.platform.ready().then(() => {
       console.log('Platform is ready');
       this.getOrientation();
+      StatusBar.setOverlaysWebView({ overlay: false });// display header below status bar
+
 
       this.appVersion
         .getVersionNumber()
