@@ -1,6 +1,6 @@
 {
   "name": "community-radio-app",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Community Radio Mobile Application",
   "scripts": {
     "prebuild": "node scripts/build-config.js",
