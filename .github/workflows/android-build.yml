@@ -3,10 +3,14 @@ name: Android Build
 on:
   push:
     branches: [ main ]
+    tags: 
+      - 'v*'   # build for tag with v in it
   pull_request:
     branches: [ main ]
   workflow_dispatch:
 
+permissions:
+  contents: write  # 👈 add this for release create permission
 jobs:
   build:
     runs-on: ubuntu-latest
